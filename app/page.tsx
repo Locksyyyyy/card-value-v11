@@ -1,4 +1,4 @@
 'use client';
 import {useState} from 'react';
-import {supabaseBrowser} from '../../lib/supabase';
+import {supabaseBrowser} from '../lib/supabase';
 export default function Login(){const [email,setEmail]=useState('');const [sent,setSent]=useState(false);const [error,setError]=useState('');async function submit(e:any){e.preventDefault();setError('');const s=supabaseBrowser();const {error}=await s.auth.signInWithOtp({email,options:{emailRedirectTo:`${location.origin}/api/auth/callback`}});if(error)setError(error.message);else setSent(true)}return <main className="authPage"><section className="panel auth"><p className="eyebrow">CARDVALUE UK</p><h1>Sign in</h1><p className="muted">Save your collection, scan history and plan limits across devices.</p>{sent?<p>Check your email for your secure sign-in link.</p>:<form onSubmit={submit}><input type="email" required placeholder="you@example.com" value={email} onChange={e=>setEmail(e.target.value)}/><button>Send sign-in link</button></form>}{error&&<p className="error">{error}</p>}<a href="/">← Back to CardValue</a></section></main>}
